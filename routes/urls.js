@@ -7,11 +7,10 @@ module.exports = (database) => {
 
   router.get('/urls', (request, response) => {
     let user = request.cookies['userid'];
-    
-    database.getAllUrlsForUser(user, (urls) => {
-      response.render('urls_index', {
-        urls: urls
-      });
+    let urls = database[user].urls;
+
+    response.render('urls_index', {
+      urls: urls
     });
   });
 
@@ -20,24 +19,25 @@ module.exports = (database) => {
     let long = utils.cleanUrl(request.body.long);
     let short = shortid();
 
-    database.createUrl({
+    database[user].urls.push({
       short: short,
-      long: long,
-      user_id: user
-    }, () => {
-      response.redirect('/urls');
+      long: long
     });
+
+    response.redirect('/urls');
   });
 
   router.get('/urls/:short', (request, response) => {
     let user = request.cookies['userid'];
     let short = request.params.short;
 
-    database.getUrl(short, (url) => {
-      response.render('urls_show', {
-        short: url.short,
-        long: url.long
-      });
+    let url = database[user].urls.find((url) => {
+      return url.short === short;
+    });
+
+    response.render('urls_show', {
+      short: url.short,
+      long: url.long
     });
   });
 
@@ -46,18 +46,26 @@ module.exports = (database) => {
     let short = request.params.short;
     let long = request.body.long;
 
-    database.updateUrl(short, long, () => {
-      response.redirect('/urls');
+    let index = database[user].urls.findIndex((url) => {
+      return url.short === short;
     });
+
+    database[user].urls[index].long = utils.cleanUrl(long);
+
+    response.redirect('/urls');
   });
 
   router.post('/urls/:short/delete', (request, response) => {
     let user = request.cookies['userid'];
     let short = request.params.short;
 
-    database.deleteUrl(short, () => {
-      response.redirect('/urls');
+    let index = database[user].urls.findIndex((url) => {
+      return url.short === short; 
     });
+
+    database[user].urls.splice(index, 1);
+
+    response.redirect('/urls');
   });
 
   return router;

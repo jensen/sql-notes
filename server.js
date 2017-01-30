@@ -4,12 +4,13 @@ const body = require('body-parser');
 const cookies = require('cookie-parser');
 
 // user libraries
-const database = require('./lib/queries');
+const seed = require('./lib/seed');
 const user = require('./lib/user');
 
 // routes
 const urls = require('./routes/urls');
 
+const database = seed();
 const app = express();
 
 const PORT = 8080;
@@ -37,4 +38,5 @@ app.post('/login', (request, response) => {
 
 app.listen(PORT, () => {
   console.log('TinyApp listening on port ' + PORT + '!');
+  console.log(JSON.stringify(database, null, 2));
 });
