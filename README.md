@@ -32,6 +32,10 @@ The data requirements for TinyApp were quite basic. If we were to model this in 
 +----+-------+----------------------------+---------+
 ```
 
+> The easiest way to generate this schema and seed the database is to call `\i tinyapp.sql` in the `psql` console. 
+
+Once we have a databas with some initial values we can think about making queries to that data.
+
 ## Reading & Writing data using SQL
 
 ### `GET /login`
@@ -87,6 +91,14 @@ DELETE FROM urls WHERE short = 'abc';
 In order to execute any queries we need to make a connection to the PostgreSQL database.
 
 ## Ensuring secure user input
+
+### Unsafe
+
+```javascript
+client.query('INSERT ', (error, result) => {
+
+});
+```
 
 ```javascript
 client.query('INSERT ', (error, result) => {
