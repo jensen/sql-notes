@@ -1,5 +1,7 @@
 # SQL from Apps
 
+> Slides can be found in `sql.pdf`
+
 When you were building TinyApp you stored the user and url data in an object. This object was in memory and when the server was stopped the data was lost. A database is the most common solution for storing persistant data for an application.
 
 The data requirements for TinyApp were quite basic. If we were to model this in a relational database we would create two tables. One table would be for the users of the app. The other table would be used to store the urls. The urls table would have a foreign key reference back to a user to represent url ownership.
