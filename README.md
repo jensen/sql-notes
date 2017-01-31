@@ -210,7 +210,7 @@ If you would like to include variable values in your query you can use the built
 ### Safe
 
 ```javascript
-client.query("INSERT INTO urls (short, long, user_id) VALUES ($1::text, $2::text, $3::integer);", [short, long, user_id], (error, result) => {
+client.query("INSERT INTO urls (short, long, user_id) VALUES ($1::text, $2::text, $3::integer)", [short, long, user_id], (error, result) => {
   console.log(results);
 });
 ```
