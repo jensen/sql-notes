@@ -1,4 +1,4 @@
-# SQL from Apps 
+# SQL from Apps
 
 When you were building TinyApp you stored the user and url data in an object. This object was in memory and when the server was stopped the data was lost. A database is the most common solution for storing persistant data for an application.
 
@@ -32,11 +32,11 @@ The data requirements for TinyApp were quite basic. If we were to model this in 
 +----+-------+----------------------------+---------+
 ```
 
-> The easiest way to generate this schema and seed the database is to call `\i tinyapp.sql` in the `psql` console. 
-
-Once we have a database with some initial values we can think about making queries to that data. 
+> The easiest way to generate this schema and seed the database is to call `\i tinyapp.sql` in the `psql` console.
 
 ## Reading & Writing data using SQL
+
+Once we have a database with some initial values we can think about making queries to that data.
 
 ### `GET /login`
 
@@ -100,7 +100,7 @@ const client = new pg.Client();
 client.connect((error) => {
   if(error) throw error;
 
-  client.query("SELECT * FROM users WHERE id = 1;", (error, results) => {
+  client.query("SELECT * FROM users WHERE id = 1", (error, results) => {
     if(error) throw error;
 
     console.log(results);
@@ -143,11 +143,11 @@ We could create a module that allows us to connect to the database, and when it 
 const pg = require('pg');
 
 var config = {
-  user: 'kjensen', //env var: PGUSER 
-  database: 'w4d2', //env var: PGDATABASE 
-  password: '', //env var: PGPASSWORD 
-  host: 'localhost', // Server hosting the postgres database 
-  port: 5432 //env var: PGPORT 
+  user: 'kjensen', //env var: PGUSER
+  database: 'w4d2', //env var: PGDATABASE
+  password: '', //env var: PGPASSWORD
+  host: 'localhost', // Server hosting the postgres database
+  port: 5432 //env var: PGPORT
 };
 
 module.exports = {
@@ -167,7 +167,7 @@ const db = require('./db');
 
 function getAllUsers(done /* our callback */) {
   db.connect((error, client) => {
-    client.query("SELECT * FROM users;", (err, users) => {
+    client.query("SELECT * FROM users", (err, users) => {
       done(users.rows);
       db.close(client);
     });
@@ -184,7 +184,7 @@ getAllUsers((users) => {
 ### Unsafe
 
 ```javascript
-client.query("INSERT INTO urls (short, long, user_id) VALUES ('" + short + "', '" + long + "', " + user_id + ");", (error, results) => {
+client.query("INSERT INTO urls (short, long, user_id) VALUES ('" + short + "', '" + long + "', " + user_id + ")", (error, results) => {
   console.log(results);
 });
 ```
@@ -205,7 +205,7 @@ Delete all the urls from the database. The `--` on the end is a SQL comment, so 
 DELETE FROM urls WHERE 1 = 1; --
 ```
 
-If you would like to include variable values in your query you can use the built in parameterization functionality. This changes the usage of the `query` function. The second parameter is now an array of values to be injected into the query. 
+If you would like to include variable values in your query you can use the built in parameterization functionality. This changes the usage of the `query` function. The second parameter is now an array of values to be injected into the query.
 
 ### Safe
 
@@ -217,12 +217,14 @@ client.query("INSERT INTO urls (short, long, user_id) VALUES ($1::text, $2::text
 
 ## Bonus
 
-# REVIEW THIS
-
 The repository has three branches.
 
 - master (the pg sql version)
 - base (the in memory object version)
 - knex (the knex version with migrations)
 
-Use file comparison software to review the differences between versions of these files. An interesting one to look at is the `routes/urls.js` file for the base and master versions..
+You can use tools to review the differences between versions of these files. An interesting one to look at is the `routes/urls.js` file for the base and master versions. `git diff base...master` would give you a list of the differences between these two branches.
+
+## References
+
+- [npm pg module](https://www.npmjs.com/package/pg)
