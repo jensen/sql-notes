@@ -1,5 +1,7 @@
 # SQL from Apps
 
+> Slides can be found in `sql.pdf`
+
 When you were building TinyApp you stored the user and url data in an object. This object was in memory and when the server was stopped the data was lost. A database is the most common solution for storing persistant data for an application.
 
 The data requirements for TinyApp were quite basic. If we were to model this in a relational database we would create two tables. One table would be for the users of the app. The other table would be used to store the urls. The urls table would have a foreign key reference back to a user to represent url ownership.
@@ -51,7 +53,7 @@ SELECT * FROM users;
 Get all the urls for a user
 
 ```sql
-SELECT short,long FROM urls WHERE user_id = 1;
+SELECT short, long FROM urls WHERE user_id = 1;
 ```
 
 ### `POST /urls`
@@ -90,7 +92,7 @@ DELETE FROM urls WHERE short = 'abc';
 
 In order to execute any queries we need to make a connection to the PostgreSQL database.
 
-First install `pg` with `npm install pg --save`. Once the module is available you can use it in your project.
+First install `pg` with `npm install pg --save`. Once the module is installed you can use it in your project.
 
 ```javascript
 const pg = require('pg');
@@ -142,7 +144,7 @@ We could create a module that allows us to connect to the database, and when it 
 ```javascript
 const pg = require('pg');
 
-var config = {
+const config = {
   user: 'kjensen', //env var: PGUSER
   database: 'w4d2', //env var: PGDATABASE
   password: '', //env var: PGPASSWORD
@@ -189,7 +191,7 @@ client.query("INSERT INTO urls (short, long, user_id) VALUES ('" + short + "', '
 });
 ```
 
-With the above examples. As long as the users enters a url like `http://www.lighthouselabs.ca/` then there are no issues. A user with the intent to damage your business could instead enter a url like `http://www.lighthouselabs.ca/', 1); DELETE FROM urls WHERE 1 = 1; --`.
+With the above examples, long as the users enters a url like `http://www.lighthouselabs.ca/` then there are no issues. A user with the intent to damage your business could instead enter a url like `http://www.lighthouselabs.ca/', 1); DELETE FROM urls WHERE 1 = 1; --`.
 
 Because the input is included in the query without any sanitization it becomes two queries.
 
@@ -228,3 +230,4 @@ You can use tools to review the differences between versions of these files. An 
 ## References
 
 - [npm pg module](https://www.npmjs.com/package/pg)
+
