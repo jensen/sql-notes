@@ -36,6 +36,17 @@ The data requirements for TinyApp were quite basic. If we were to model this in 
 
 > The easiest way to generate this schema and seed the database is to call `\i tinyapp.sql` in the `psql` console.
 
+## PSQL Commands
+
+When using `psql` I find that there are some commands that I use consistently. The rest can be found in the [psql cli reference](https://www.postgresql.org/docs/current/static/app-psql.html).
+
+```
+\i tinyapp.sql - Includes (runs) the SQL in the provided file.
+\c w4d2 - Connects to a specific database.
+\d - Lists tables in current database.
+\l - List databases and other information.
+```
+
 ## Reading & Writing data using SQL
 
 Once we have a database with some initial values we can think about making queries to that data.
